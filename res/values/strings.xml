@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ShootingStar ReActivate</string>
+    <string name="hello_world">このアプリは、ShootingStarのアプリ登録をTwitter側では行っているにもかかわらず、ShootingStar側の認証の仕様で、新しい端末や初期化した端末などにアカウントを登録できないことがある問題を解決するものです。(root化必須)\n
+        また、このアプリはもともと個人用に作ったものなので、バグがあるからといって文句は言わないでください。\nまた、使用は自己責任でお願いします。データはバックアップしておくことをお勧めします。\nソースは\n\n
+        【使い方】\nまずはブラウザアプリで、認証したいアカウントにあらかじめサインインしておいてください。\n次に下のボタンを押してください。</string>
+    <string name="menu_settings">Settings</string>
+    <string name="agree">同意して認証</string>
+
+</resources>
