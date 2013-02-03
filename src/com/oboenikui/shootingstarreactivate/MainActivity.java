@@ -1,12 +1,8 @@
 package com.oboenikui.shootingstarreactivate;
 
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
 import twitter4j.AsyncTwitter;
 import twitter4j.AsyncTwitterFactory;
 import twitter4j.Twitter;
@@ -19,28 +15,17 @@ import twitter4j.auth.RequestToken;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.app.Activity;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
     private final String CALLBACK_URL = "oboenikui://shootingstar";
-    private final String CONSUMER_KEY = "ShootingStarのコンシューマキー";
-    private final String CONSUMER_SECRET = "ShootingStarのコンシューマシークレット";
-    private Handler mHandler = new Handler();
+    private final String CONSUMER_KEY = "(ShootingStarのConsumer Key)";
+    private final String CONSUMER_SECRET = "(ShootingStarのConsumer Secret)";
     private AsyncTwitter twitter = new AsyncTwitterFactory().getInstance();
     private RequestToken mRequestToken;
     @Override
@@ -106,16 +91,11 @@ public class MainActivity extends Activity {
                             long id = t.getId();
                             User user = t.showUser(id);
                             String iconURL = user.getProfileImageURL().toString();
-                            Log.d("id",id+"");
-                            Log.d("Screen Name",screenName);
-                            Log.d("Token",accessToken);
-                            Log.d("Token Secret",accessTokenSecret);
-                            Log.d("Icon URL",iconURL);
                             Process process;
                             try {
                                 process = Runtime.getRuntime().exec("su");
                                 DataOutputStream os = new DataOutputStream(process.getOutputStream());
-                                String[] cmds={"/system/bin/sh >/sdcard/log.txt","-c",
+                                String[] cmds={"/system/bin/sh","-c",
                                                "echo "+ 
                                                "\"insert into account values(" + id +
                                                ",'" + screenName +
@@ -131,14 +111,6 @@ public class MainActivity extends Activity {
                                 os.writeBytes("exit\n");
                                 os.flush();
                                 os.close();
-                                BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(process.getInputStream()), 1024);
-                                String line;
-                                StringBuilder log = new StringBuilder();
-                                while ((line = bufferedReader.readLine()) != null) {
-                                    log.append(line);
-                                    log.append("\n");
-                                }
-                                Log.i("LogSample", log.toString());
                                 process.waitFor();
 
                             } catch (IOException e1) {
@@ -155,16 +127,5 @@ public class MainActivity extends Activity {
                 }).start();
             }
         }).start();
-    }
-    class SubOpenHelper extends SQLiteOpenHelper{
-        public SubOpenHelper(Context c,String dbname,int version){
-            super(c,dbname,null,version);
-        }
-        @Override
-        public void onCreate(SQLiteDatabase db){
-        }
-        @Override
-        public void onUpgrade(SQLiteDatabase db,int oldVersion,int newVersion){
-        }
     }
 }
